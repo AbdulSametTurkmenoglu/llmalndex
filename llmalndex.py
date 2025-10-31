@@ -15,11 +15,11 @@ from llama_index.core import (
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.llms.anthropic import Anthropic
 
-print("🚀 1. Adım: Temel Kurulum ve Ayarlar Başlatılıyor...")
+print(" 1. Adım: Temel Kurulum ve Ayarlar Başlatılıyor...")
 
 storage_path = "./storage"
 
-print("🧠 LLM (Claude) ve Embedding Modeli (e5-large) Yükleniyor...")
+print(" LLM (Claude) ve Embedding Modeli (e5-large) Yükleniyor...")
 Settings.llm = Anthropic(
     api_key="x",
     model="claude-sonnet-4-5-20250929",
@@ -34,10 +34,10 @@ try:
     if not os.path.exists(storage_path) or not os.listdir(storage_path):
         raise FileNotFoundError("Storage directory is empty or doesn't exist")
 
-    print("✅ Mevcut index bulundu. Diskten yükleniyor...")
+    print(" Mevcut index bulundu. Diskten yükleniyor...")
     storage_context = StorageContext.from_defaults(persist_dir=storage_path)
     index = load_index_from_storage(storage_context)
-    print("✅ Index başarıyla yüklendi.")
+    print(" Index başarıyla yüklendi.")
 
 except (FileNotFoundError, Exception) as e:
     print(f"Mevcut index bulunamadı ({str(e)}). Belgelerden yeni bir index oluşturuluyor...")
@@ -47,7 +47,7 @@ except (FileNotFoundError, Exception) as e:
         sys.exit(1)
 
     documents = SimpleDirectoryReader("data/").load_data()
-    print(f"✅ Yüklenen belge sayısı: {len(documents)}")
+    print(f" Yüklenen belge sayısı: {len(documents)}")
 
     if len(documents) == 0:
         print("Hata: Hiç belge yüklenemedi. 'data/' klasöründe belge olduğundan emin olun.")
@@ -61,7 +61,7 @@ except (FileNotFoundError, Exception) as e:
 
     os.makedirs(storage_path, exist_ok=True)
     storage_context.persist(persist_dir=storage_path)
-    print("✅ Yeni index oluşturuldu ve diske kaydedildi.")
+    print(" Yeni index oluşturuldu ve diske kaydedildi.")
 
 print("3. Adım: Hızlandırılmış Sorgulama Motoru Oluşturuluyor...")
 query_engine = index.as_query_engine(
@@ -72,7 +72,7 @@ print(" Sorgulama motoru hazır!")
 
 print("4. Adım: Sorgu Gönderiliyor ve Yanıt Bekleniyor...")
 query = "Verim, Suç ve Ceza kitabına göre suç türleri nelerdir?"
-print(f"❓ Sorgu: {query}")
+print(f" Sorgu: {query}")
 
 response = query_engine.query(query)
 
@@ -80,4 +80,5 @@ print("\n" + "=" * 50)
 print("🔹 YANIT")
 print("=" * 50)
 print(response)
+
 print("\nİşlem tamamlandı.")
